@@ -17,9 +17,7 @@
           <router-link to="/profile" class="btn-secondary">Profile</router-link>
           <button @click="logout" class="btn-secondary">Logout</button>
           <router-link to="/add-task" class="btn-primary">Add Task</router-link>
-          <button @click="exportToPDF" class="btn-primary">
-            Export to PDF
-          </button>
+          <button @click="exportToPDF" class="btn-primary">Export to PDF</button>
         </div>
       </div>
 
@@ -27,17 +25,13 @@
       <div class="user-info" v-if="user">
         <div class="user-card">
           <div class="user-details">
-            <p class="user-name">
-              Logged in as: <strong>{{ user.name }}</strong>
-            </p>
-            <p class="user-email">
-              Email: <strong>{{ user.email }}</strong>
-            </p>
+            <p class="user-name">Logged in as: <strong>{{ user.name }}</strong></p>
+            <p class="user-email">Email: <strong>{{ user.email }}</strong></p>
           </div>
         </div>
       </div>
 
-      <table class="task-table" v-if="tasks.length">
+      <table class="task-table" v-if="paginatedTasks.length">
         <thead>
           <tr>
             <th>Task Name</th>
@@ -48,26 +42,27 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="task in tasks" :key="task._id">
+          <tr v-for="task in paginatedTasks" :key="task._id">
             <td>{{ task.name }}</td>
             <td>{{ task.description }}</td>
             <td>{{ task.status }}</td>
             <td>{{ formatDate(task.dueDate) }}</td>
             <td>
-              <button @click="viewDetails(task._id)" class="btn-action">
-                View Details
-              </button>
-              <button @click="editTask(task._id)" class="btn-action">
-                Edit
-              </button>
-              <button @click="confirmDelete(task._id)" class="btn-action">
-                Delete
-              </button>
+              <button @click="viewDetails(task._id)" class="btn-action">View Details</button>
+              <button @click="editTask(task._id)" class="btn-action">Edit</button>
+              <button @click="confirmDelete(task._id)" class="btn-action">Delete</button>
             </td>
           </tr>
         </tbody>
       </table>
       <p v-else>No tasks available</p>
+
+      <!-- Pagination Control -->
+      <div class="pagination">
+        <button @click="prevPage" :disabled="currentPage === 1">Previous</button>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="currentPage === totalPages">Next</button>
+      </div>
 
       <!-- Popup for success message -->
       <div v-if="showPopup" class="popup">
@@ -78,12 +73,8 @@
       <!-- Confirmation Dialog -->
       <div v-if="showConfirmDialog" class="confirm-dialog">
         <p>Are you sure you want to delete this task?</p>
-        <button @click="deleteTask(taskToDelete)" class="btn-primary">
-          Yes
-        </button>
-        <button @click="showConfirmDialog = false" class="btn-secondary">
-          No
-        </button>
+        <button @click="deleteTask(taskToDelete)" class="btn-primary">Yes</button>
+        <button @click="showConfirmDialog = false" class="btn-secondary">No</button>
       </div>
     </div>
   </div>
@@ -103,8 +94,19 @@ export default {
       showPopup: false,
       showConfirmDialog: false,
       taskToDelete: null,
-      user: null, // Add user data
+      user: null,
+      currentPage: 1,
+      itemsPerPage: 5,
     };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.tasks.length / this.itemsPerPage);
+    },
+    paginatedTasks() {
+      const start = (this.currentPage - 1) * this.itemsPerPage;
+      return this.tasks.slice(start, start + this.itemsPerPage);
+    },
   },
   async created() {
     try {
@@ -113,7 +115,7 @@ export default {
       this.tasks = tasks;
 
       // Fetch user details
-      const user = await getUser(); // Adjust this based on your service
+      const user = await getUser(); 
       this.user = user;
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -160,35 +162,21 @@ export default {
       const doc = new jsPDF();
       doc.setFontSize(12);
 
-      // Add image to the PDF
-      const imgData = require("@/assets/logo4.png"); // Adjust the path to your image
-
-      // Calculate image width and height
+      const imgData = require("@/assets/logo4.png"); 
       const imgWidth = 40; // width for the image
       const imgHeight = 25; // height for the image
-
-      // Calculate the x-coordinate for center alignment
       const pageWidth = doc.internal.pageSize.getWidth();
       const x = (pageWidth - imgWidth) / 2; // Center the image horizontally
+      doc.addImage(imgData, "PNG", x, 10, imgWidth, imgHeight); // Add image
 
-      // Add the image to the PDF at the calculated position
-      doc.addImage(imgData, "PNG", x, 10, imgWidth, imgHeight); // Add image at (x, y) position, width, height
-
-      // Add title text below the image
       const text = "Tasks List";
       const textWidth = doc.getTextWidth(text);
       const titleYPosition = 10 + imgHeight + 10; // Position below the image
-
-      // Calculate the x-coordinate for center alignment of title text
       const titleX = (pageWidth - textWidth) / 2;
+      doc.setFont("helvetica", "bold");
+      doc.text(text, titleX, titleYPosition); // Draw title text
 
-      // Set font to bold for the title
-      doc.setFont("helvetica", "bold"); // Set font to Helvetica, bold style
-      doc.text(text, titleX, titleYPosition); // Draw title text below the image
-
-      // Reset font to normal for the table
       doc.setFont("helvetica", "normal");
-
       const columns = ["Task Name", "Description", "Status", "Due Date"];
       const rows = this.tasks.map((task) => [
         task.name,
@@ -197,9 +185,18 @@ export default {
         this.formatDate(task.dueDate),
       ]);
 
-      // Start the table below the title
       doc.autoTable(columns, rows, { startY: titleYPosition + 10 });
       doc.save("tasks-list.pdf");
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
     },
   },
 };
@@ -387,5 +384,32 @@ body {
   margin-bottom: 20px;
   font-size: 18px;
   color: #333;
+}
+
+/* Pagination styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+  margin: 0 5px;
+}
+
+.pagination button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  margin: 0 10px;
 }
 </style>
