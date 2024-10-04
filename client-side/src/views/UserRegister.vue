@@ -1,23 +1,35 @@
 <template>
-  <div class="register-container">
-    <h1>Register</h1>
-    <form @submit.prevent="handleRegister">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input v-model="name" type="text" id="name" placeholder="Name" required />
+  <div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <router-link to="/login">
+          <img src="@/assets/logo4.png" alt="Logo" class="logo"/>
+        </router-link>
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input v-model="email" type="email" id="email" placeholder="Email" required />
+    </nav>
+
+    <!-- Register Form -->
+    <div class="register-container">
+      <h1>Register</h1>
+      <form @submit.prevent="handleRegister">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input v-model="name" type="text" id="name" placeholder="Name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input v-model="email" type="email" id="email" placeholder="Email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input v-model="password" type="password" id="password" placeholder="Password" required />
+        </div>
+        <button type="submit" class="btn-primary">Register</button>
+      </form>
+      <div class="back-to-login">
+        <button @click="goToLogin" class="btn-secondary">Back to Login</button>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input v-model="password" type="password" id="password" placeholder="Password" required />
-      </div>
-      <button type="submit" class="btn-primary">Register</button>
-    </form>
-    <div class="back-to-login">
-      <button @click="goToLogin" class="btn-secondary">Back to Login</button>
     </div>
   </div>
 </template>
@@ -52,6 +64,28 @@ export default {
 </script>
 
 <style scoped>
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Fading border effect */
+}
+
+.navbar-logo img {
+  width: 100px; /* Adjust the logo size */
+  height: auto;
+}
+
+body {
+  background-color: white;
+}
+
+/* Register Form styling */
 .register-container {
   max-width: 400px;
   margin: 50px auto;

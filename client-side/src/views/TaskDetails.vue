@@ -1,14 +1,25 @@
 <template>
-  <div class="task-details-container">
-    <h1>Task Details</h1>
-    <div class="task-details" v-if="task">
-      <p><strong>Name:</strong> {{ task.name }}</p>
-      <p><strong>Description:</strong> {{ task.description }}</p>
-      <p><strong>Status:</strong> {{ task.status }}</p>
-      <p><strong>Due Date:</strong> {{ formatDate(task.dueDate) }}</p>
+  <div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <router-link to="/tasks">
+          <img src="@/assets/logo4.png" alt="Logo" class="logo" />
+        </router-link>
+      </div>
+    </nav>
+
+    <div class="task-details-container">
+      <h1>Task Details</h1>
+      <div class="task-details" v-if="task">
+        <p><strong>Name:</strong> {{ task.name }}</p>
+        <p><strong>Description:</strong> {{ task.description }}</p>
+        <p><strong>Status:</strong> {{ task.status }}</p>
+        <p><strong>Due Date:</strong> {{ formatDate(task.dueDate) }}</p>
+      </div>
+      <p v-else>Loading task details...</p>
+      <button @click="goBack" class="btn-primary">Back to Tasks</button>
     </div>
-    <p v-else>Loading task details...</p>
-    <button @click="goBack" class="btn-primary">Back to Tasks</button>
   </div>
 </template>
 
@@ -43,6 +54,27 @@ export default {
 </script>
 
 <style scoped>
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Fading border effect */
+}
+
+.navbar-logo img {
+  width: 100px; /* Adjust the logo size */
+  height: auto;
+}
+
+body {
+  background-color: white;
+}
+
 .task-details-container {
   max-width: 600px;
   margin: 50px auto;

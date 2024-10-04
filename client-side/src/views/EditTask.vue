@@ -1,4 +1,14 @@
 <template>
+    <div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <router-link to="/tasks">
+          <img src="@/assets/logo4.png" alt="Logo" class="logo"/>
+        </router-link>
+      </div>
+    </nav>
+
   <div class="edit-task-container">
     <h1>Edit Task</h1>
     <form @submit.prevent="handleEdit">
@@ -45,6 +55,7 @@
       <button @click="goToTasks">Go Back to Task List</button>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -90,6 +101,27 @@ export default {
 </script>
 
 <style scoped>
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Fading border effect */
+}
+
+.navbar-logo img {
+  width: 100px; /* Adjust the logo size */
+  height: auto;
+}
+
+body {
+  background-color: white;
+}
+
 .edit-task-container {
   max-width: 600px;
   margin: 50px auto;

@@ -1,4 +1,15 @@
 <template>
+  <div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <router-link to="/tasks">
+          <img src="@/assets/logo4.png" alt="Logo" class="logo"/>
+        </router-link>
+      </div>
+    </nav>
+
+    <!-- Add Task Form -->
     <div class="add-task-container">
       <h1>Add New Task</h1>
       <form @submit.prevent="handleSubmit">
@@ -25,81 +36,103 @@
         <button type="submit" class="btn-primary">Add Task</button>
       </form>
     </div>
-  </template>
-  
-  <script>
-  import { addTask } from '../services/taskService';
-  
-  export default {
-    name: 'AddTask',
-    data() {
-      return {
-        task: {
-          name: '',
-          description: '',
-          status: 'Pending',
-          dueDate: ''
-        }
-      };
-    },
-    methods: {
-      async handleSubmit() {
-        try {
-          await addTask(this.task);
-          this.$router.push('/tasks');
-        } catch (error) {
-          console.error('Error adding task:', error);
-        }
+  </div>
+</template>
+
+<script>
+import { addTask } from '../services/taskService';
+
+export default {
+  name: 'AddTask',
+  data() {
+    return {
+      task: {
+        name: '',
+        description: '',
+        status: 'Pending',
+        dueDate: ''
+      }
+    };
+  },
+  methods: {
+    async handleSubmit() {
+      try {
+        await addTask(this.task);
+        this.$router.push('/tasks');
+      } catch (error) {
+        console.error('Error adding task:', error);
       }
     }
-  };
-  </script>
-  
-  <style scoped>
-  .add-task-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #eaeaea;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
   }
-  
-  .add-task-container .form-group {
-    margin-bottom: 15px;
-    text-align: left;
-  }
-  
-  .add-task-container label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .add-task-container input,
-  .add-task-container textarea,
-  .add-task-container select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #eaeaea;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  .btn-primary {
-    display: inline-block;
-    margin-top: 20px;
-    background-color: #000;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .btn-primary:hover {
-    background-color: #333;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Fading border effect */
+}
+
+.navbar-logo img {
+  width: 100px; /* Adjust the logo size */
+  height: auto;
+}
+
+body {
+  background-color: white;
+}
+
+/* Add Task Form styling */
+.add-task-container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.add-task-container .form-group {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.add-task-container label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.add-task-container input,
+.add-task-container textarea,
+.add-task-container select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.btn-primary {
+  display: inline-block;
+  margin-top: 20px;
+  background-color: #000;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+}
+</style>

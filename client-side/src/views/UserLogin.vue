@@ -1,25 +1,37 @@
 <template>
-  <div class="login-container">
-    <h1>Login</h1>
-    <p>Enter your email below to login to your account</p>
-    <form @submit.prevent="handleLogin">
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input v-model="email" type="email" id="email" placeholder="m@example.com" required />
+  <div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <router-link to="/">
+          <img src="@/assets/logo4.png" alt="Logo" class="logo"/>
+        </router-link>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <div class="password-container">
-          <input v-model="password" type="password" id="password" placeholder="Password" required />
-          <a href="#" class="forgot-password">Forgot your password?</a>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="login-container">
+      <h1>Login</h1>
+      <p>Enter your email below to login to your account</p>
+      <form @submit.prevent="handleLogin">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input v-model="email" type="email" id="email" placeholder="m@example.com" required />
         </div>
-      </div>
-      <button type="submit" class="btn-primary">Login</button>
-    </form>
-    <!--<button class="btn-secondary" @click="loginWithGoogle">Login with Google</button>-->
-    <p class="sign-up">
-      Don't have an account? <router-link to="/register">Sign up</router-link>
-    </p>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="password-container">
+            <input v-model="password" type="password" id="password" placeholder="Password" required />
+            <a href="#" class="forgot-password">Forgot your password?</a>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+      <!--<button class="btn-secondary" @click="loginWithGoogle">Login with Google</button>-->
+      <p class="sign-up">
+        Don't have an account? <router-link to="/register">Sign up</router-link>
+      </p>
+    </div>
   </div>
 </template>
 
@@ -53,6 +65,28 @@ export default {
 </script>
 
 <style scoped>
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Fading border effect */
+}
+
+.navbar-logo img {
+  width: 100px; /* Adjust the logo size */
+  height: auto;
+}
+
+body {
+  background-color: white;
+}
+
+/* Login Form styling */
 .login-container {
   max-width: 400px;
   margin: 50px auto;

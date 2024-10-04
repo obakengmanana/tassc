@@ -1,48 +1,60 @@
 <template>
-  <div class="edit-profile-container">
-    <h1>Edit Profile</h1>
-    <form @submit.prevent="handleEdit">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input
-          v-model="user.name"
-          type="text"
-          id="name"
-          placeholder="Name"
-          required
-        />
+  <div>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <div class="navbar-logo">
+        <router-link to="/tasks">
+          <img src="@/assets/logo4.png" alt="Logo" class="logo"/>
+        </router-link>
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input
-          v-model="user.email"
-          type="email"
-          id="email"
-          placeholder="Email"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input
-          v-model="user.password"
-          type="password"
-          id="password"
-          placeholder="New Password"
-        />
-      </div>
-      <button type="submit" class="btn-primary">Save Changes</button>
-    </form>
-    <div class="back-to-profile">
-      <button @click="goToProfile" class="btn-secondary">
-        Back to Profile
-      </button>
-    </div>
+    </nav>
 
-    <!-- Popup for success message -->
-    <div v-if="showPopup" class="popup">
-      <p>Changes have been saved successfully!</p>
-      <button @click="goToTasks">Go Back to Task List</button>
+    <!-- Edit Profile Form -->
+    <div class="edit-profile-container">
+      <h1>Edit Profile</h1>
+      <form @submit.prevent="handleEdit">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input
+            v-model="user.name"
+            type="text"
+            id="name"
+            placeholder="Name"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            v-model="user.email"
+            type="email"
+            id="email"
+            placeholder="Email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            v-model="user.password"
+            type="password"
+            id="password"
+            placeholder="New Password"
+          />
+        </div>
+        <button type="submit" class="btn-primary">Save Changes</button>
+      </form>
+      <div class="back-to-profile">
+        <button @click="goToProfile" class="btn-secondary">
+          Back to Profile
+        </button>
+      </div>
+
+      <!-- Popup for success message -->
+      <div v-if="showPopup" class="popup">
+        <p>Changes have been saved successfully!</p>
+        <button @click="goToTasks">Go Back to Task List</button>
+      </div>
     </div>
   </div>
 </template>
@@ -91,6 +103,28 @@ export default {
 </script>
 
 <style scoped>
+/* Navbar styling */
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Fading border effect */
+}
+
+.navbar-logo img {
+  width: 100px; /* Adjust the logo size */
+  height: auto;
+}
+
+body {
+  background-color: white;
+}
+
+/* Edit Profile Form styling */
 .edit-profile-container {
   max-width: 600px;
   margin: 50px auto;

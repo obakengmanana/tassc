@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <div class="logo-container">
-      <img src="@/assets/legend_system_logo.png" alt="Logo" class="logo"/>
+      <img src="@/assets/logo4.png" alt="Logo" class="logo"/>
     </div>
     <button @click="goToLogin" class="btn-primary">Proceed</button>
   </div>
@@ -19,6 +19,12 @@ export default {
 </script>
 
 <style scoped>
+.logo {
+  width: 200px;
+  height: auto;
+}
+
+
 .home-container {
   display: flex;
   flex-direction: column;
